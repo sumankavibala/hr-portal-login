@@ -1,4 +1,4 @@
-# Fixed Dockerfile for Render with all required dependencies
+# Fixed Dockerfile for Render - Debian Bullseye compatible
 FROM node:18-bullseye-slim
 
 # Set environment variables
@@ -8,7 +8,7 @@ ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
 WORKDIR /app
 
-# Install ALL required system dependencies for Chromium
+# Install system dependencies compatible with Debian Bullseye
 RUN apt-get update && apt-get install -y \
     # Basic utilities
     wget \
@@ -18,10 +18,8 @@ RUN apt-get update && apt-get install -y \
     # Font libraries
     fonts-liberation \
     fonts-noto-color-emoji \
-    fonts-unifont \
     # Audio libraries
     libasound2 \
-    libpulse0 \
     # Display and graphics libraries
     libnss3 \
     libnspr4 \
@@ -33,14 +31,10 @@ RUN apt-get update && apt-get install -y \
     libxrandr2 \
     libgbm1 \
     libxss1 \
-    libasound2 \
-    # GTK and Cairo libraries
+    # GTK libraries (only GTK3, no GTK4 in Bullseye)
     libgtk-3-0 \
-    libgtk-4-1 \
-    libgconf-2-4 \
-    # CUPS library (THE MISSING ONE!)
+    # CUPS library (the one that was missing)
     libcups2 \
-    libcups2-dev \
     # X11 libraries
     libx11-6 \
     libx11-xcb1 \
@@ -72,7 +66,7 @@ COPY package*.json ./
 # Install Node.js dependencies
 RUN npm ci --only=production && npm cache clean --force
 
-# Install Playwright and browsers with system dependencies
+# Install Playwright and browsers
 RUN npx playwright install chromium
 RUN npx playwright install-deps chromium
 
