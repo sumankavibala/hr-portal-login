@@ -1,0 +1,7 @@
+# wrangler.toml
+name              = "greythr-telegram-bot"
+main              = "src/index.js"   # path to your Worker script
+compatibility_date = "2025-08-18"
+
+# If you do NOT ship any static files, delete the whole [assets] section.
+# directory = "./dist"
