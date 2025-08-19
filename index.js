@@ -17,7 +17,7 @@ const LOGIN_BTN    = 'button[type=submit]';
 
 async function performHRAction(action = 'signin') {
   const browser = await chromium.launch({ 
-    headless: false,  // Set to true after testing
+    headless: true,  // Set to true after testing
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
   const page = await browser.newPage();
